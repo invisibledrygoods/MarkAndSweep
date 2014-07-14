@@ -1,0 +1,8 @@
+{
+  "infect": "MarkAndSweep/Assets",
+  "with": 
+  {
+    "invisibledrygoods/RequireUnity": "HEAD",
+    "invisibledrygoods/GivenWhenUnity": "HEAD"
+  }
+}
