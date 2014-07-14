@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Require;
 
 public class HoldsReferences : MonoBehaviour
 {
@@ -7,21 +8,40 @@ public class HoldsReferences : MonoBehaviour
     
     public HashSet<IsGarbageCollectable> references = new HashSet<IsGarbageCollectable>();
 
-    public IsGarbageCollectable Add(IsGarbageCollectable reference)
+    public GameObject Add(GameObject reference)
     {
-        references.Add(reference);
+        references.Add(reference.transform.Require<IsGarbageCollectable>());
         return reference;
     }
 
-    public void Remove(IsGarbageCollectable reference)
+    public T Add<T>(T reference) where T : Component
     {
-        references.Remove(reference);
+        references.Add(reference.transform.Require<IsGarbageCollectable>());
+        return reference;
     }
 
-    public IsGarbageCollectable Replace(IsGarbageCollectable oldReference, IsGarbageCollectable newReference)
+    public void Remove(GameObject reference)
     {
-        references.Remove(oldReference);
-        references.Add(newReference);
+        references.Remove(reference.transform.Require<IsGarbageCollectable>());
+    }
+
+    public void Remove<T>(T reference) where T : Component
+    {
+        references.Remove(reference.transform.Require<IsGarbageCollectable>());
+    }
+
+    public GameObject Replace(GameObject oldReference, GameObject newReference)
+    {
+        references.Remove(oldReference.transform.Require<IsGarbageCollectable>());
+        references.Add(newReference.transform.Require<IsGarbageCollectable>());
+        return newReference;
+    }
+
+    public T Replace<T>(T oldReference, T newReference)
+        where T : Component
+    {
+        references.Remove(oldReference.transform.Require<IsGarbageCollectable>());
+        references.Add(newReference.transform.Require<IsGarbageCollectable>());
         return newReference;
     }
 

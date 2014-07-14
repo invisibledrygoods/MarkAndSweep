@@ -8,6 +8,8 @@ public class HoldsReferencesTest : TestBehaviour {
     HoldsReferences it;
     IsGarbageCollectable aThing;
     IsGarbageCollectable anotherThing;
+    HoldsReferences aClass;
+    GameObject aGameObject;
     
     public override void Spec()
     {
@@ -16,6 +18,18 @@ public class HoldsReferencesTest : TestBehaviour {
             .When("a reference to the thing is added")
             .Then("it should reference the thing")
             .Because("Add(reference) adds the reference");
+
+        Given("it holds references")
+            .And("a game object exists")
+            .When("a reference to the game object is added")
+            .Then("the game object should be garbage collectable")
+            .Because("adding a game object as a reference automatically makes it collectable");
+
+        Given("it holds references")
+            .And("a different class exists")
+            .When("a reference to the different class is added")
+            .Then("the different class should be garbage collectable")
+            .Because("adding another class as a reference automatically makes its game object collectable");
 
         Given("it holds references")
             .And("a thing is garbage collectable")
@@ -56,9 +70,29 @@ public class HoldsReferencesTest : TestBehaviour {
         anotherThing = new GameObject().transform.Require<IsGarbageCollectable>();
     }
 
+    public void AGameObjectExists()
+    {
+        aGameObject = new GameObject();
+    }
+
+    public void ADifferentClassExists()
+    {
+        aClass = new GameObject().transform.Require<HoldsReferences>();
+    }
+
     public void AReferenceToTheThingIsAdded()
     {
         it.Add(aThing);
+    }
+
+    public void AReferenceToTheGameObjectIsAdded()
+    {
+        it.Add(aGameObject);
+    }
+
+    public void AReferenceToTheDifferentClassIsAdded()
+    {
+        it.Add(aClass);
     }
 
     public void AReferenceToTheThingIsRemoved()
@@ -89,5 +123,15 @@ public class HoldsReferencesTest : TestBehaviour {
     public void ItShouldReferenceTheOtherThing()
     {
         it.references.ShouldContain(anotherThing);
+    }
+
+    public void TheGameObjectShouldBeGarbageCollectable()
+    {
+        aGameObject.GetComponent<IsGarbageCollectable>().ShouldNotBe(null);
+    }
+
+    public void TheDifferentClassShouldBeGarbageCollectable()
+    {
+        aClass.GetComponent<IsGarbageCollectable>().ShouldNotBe(null);
     }
 }
