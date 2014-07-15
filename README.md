@@ -1,8 +1,9 @@
 MarkAndSweep
 ============
 
-A bit of automatic resource management. I switched it to reference counting
-within a day of completion. The name is now a misnomer.
+A bit of automatic resource management.
+
+I switched it to reference counting within a day of completion so the name is now a misnomer.
 
 Example
 -------
