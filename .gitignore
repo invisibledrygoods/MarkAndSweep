@@ -13,3 +13,4 @@ Temp
 *.cache
 sync
 packages
+packages.meta
