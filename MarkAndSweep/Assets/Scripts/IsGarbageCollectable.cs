@@ -9,7 +9,6 @@ public class IsGarbageCollectable : MonoBehaviour
     public void AddReference()
     {
         references++;
-        Debug.Log("adding: now " + this + " has " + references + " references");
     }
 
     public void RemoveReference()
@@ -21,7 +20,6 @@ public class IsGarbageCollectable : MonoBehaviour
     {
         if (references <= 0)
         {
-            Debug.Log("destroying");
             Destroy(gameObject);
         }
     }
