@@ -16,9 +16,7 @@ public class HoldsReferences : MonoBehaviour
 
     public T Add<T>(T reference) where T : Component
     {
-        IsGarbageCollectable collectable = reference.transform.Require<IsGarbageCollectable>();
-        references.Add(collectable);
-        collectable.AddReference();
+        Add(reference.gameObject);
         return reference;
     }
 
@@ -29,11 +27,9 @@ public class HoldsReferences : MonoBehaviour
         collectable.RemoveReference();
     }
 
-    public void Remove<T>(T reference) where T : Component
+    public void Remove(Component reference)
     {
-        IsGarbageCollectable collectable = reference.transform.Require<IsGarbageCollectable>();
-        references.Remove(collectable);
-        collectable.RemoveReference();
+        Remove(reference.gameObject);
     }
 
     public GameObject Replace(GameObject oldReference, GameObject newReference)
@@ -43,11 +39,9 @@ public class HoldsReferences : MonoBehaviour
         return newReference;
     }
 
-    public T Replace<T>(T oldReference, T newReference)
-        where T : Component
+    public T Replace<T>(Component oldReference, T newReference) where T : Component
     {
-        Remove(oldReference);
-        Add(newReference);
+        Replace(oldReference.gameObject, newReference.gameObject);
         return newReference;
     }
 
