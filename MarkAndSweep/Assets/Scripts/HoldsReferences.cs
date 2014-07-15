@@ -39,7 +39,7 @@ public class HoldsReferences : MonoBehaviour
         return newReference;
     }
 
-    public T Replace<T>(Component oldReference, T newReference) where T : Component
+    public T Replace<T>(T oldReference, T newReference) where T : Component
     {
         Replace(oldReference.gameObject, newReference.gameObject);
         return newReference;
