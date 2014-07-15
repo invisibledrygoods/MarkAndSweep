@@ -34,9 +34,3 @@ That's all. As soon as Cirno is destroyed all her bullets will be as well.
     }
 
 And that's also all. As soon as the last of the heads is destroyed all the flames will magically go away.
-
-In Progress
------------
-
- - There is basically a 100% chance that I'll add either waitForCollected to
-   IsGarbageCollectable or just a spawnOnCollected field
