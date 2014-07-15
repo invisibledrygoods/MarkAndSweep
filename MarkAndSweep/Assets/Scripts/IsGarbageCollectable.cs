@@ -4,54 +4,25 @@ using System.Linq;
 
 public class IsGarbageCollectable : MonoBehaviour
 {
-    static HashSet<IsGarbageCollectable> garbageCollectables = new HashSet<IsGarbageCollectable>();
+    int references = 0;
 
-    static IsGarbageCollectable master;
-    static float collectInterval = 0.25f;
-    static float timeout;
-
-    void Update()
+    public void AddReference()
     {
-        if (master == null)
-        {
-            master = this;
-        }
-
-        if (master != this)
-        {
-            return;
-        }
-
-        timeout -= Time.deltaTime;
-
-        if (timeout < 0.0f)
-        {
-            timeout = collectInterval;
-
-            List<IsGarbageCollectable> collectables = IsGarbageCollectable.garbageCollectables.ToList();
-
-            foreach (HoldsReferences referenceHolder in HoldsReferences.referenceHolders)
-            {
-                foreach (IsGarbageCollectable collectable in referenceHolder.references)
-                {
-                    collectables.Remove(collectable);
-                }
-            }
-
-            foreach (IsGarbageCollectable collectable in collectables)
-            {
-                Destroy(collectable.gameObject);
-            }
-        }
+        references++;
+        Debug.Log("adding: now " + this + " has " + references + " references");
     }
 
-    void OnEnable()
+    public void RemoveReference()
     {
-        garbageCollectables.Add(this);
+        references--;
     }
 
-    void OnDisable()
+    public void Update()
     {
-        garbageCollectables.Remove(this);
+        if (references <= 0)
+        {
+            Debug.Log("destroying");
+            Destroy(gameObject);
+        }
     }
 }

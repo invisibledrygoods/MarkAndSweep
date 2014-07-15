@@ -10,38 +10,46 @@ public class HoldsReferences : MonoBehaviour
 
     public GameObject Add(GameObject reference)
     {
-        references.Add(reference.transform.Require<IsGarbageCollectable>());
+        IsGarbageCollectable collectable = reference.transform.Require<IsGarbageCollectable>();
+        references.Add(collectable);
+        collectable.AddReference();
         return reference;
     }
 
     public T Add<T>(T reference) where T : Component
     {
-        references.Add(reference.transform.Require<IsGarbageCollectable>());
+        IsGarbageCollectable collectable = reference.transform.Require<IsGarbageCollectable>();
+        references.Add(collectable);
+        collectable.AddReference();
         return reference;
     }
 
     public void Remove(GameObject reference)
     {
-        references.Remove(reference.transform.Require<IsGarbageCollectable>());
+        IsGarbageCollectable collectable = reference.transform.Require<IsGarbageCollectable>();
+        references.Remove(collectable);
+        collectable.RemoveReference();
     }
 
     public void Remove<T>(T reference) where T : Component
     {
-        references.Remove(reference.transform.Require<IsGarbageCollectable>());
+        IsGarbageCollectable collectable = reference.transform.Require<IsGarbageCollectable>();
+        references.Remove(collectable);
+        collectable.RemoveReference();
     }
 
     public GameObject Replace(GameObject oldReference, GameObject newReference)
     {
-        references.Remove(oldReference.transform.Require<IsGarbageCollectable>());
-        references.Add(newReference.transform.Require<IsGarbageCollectable>());
+        Remove(oldReference);
+        Add(newReference);
         return newReference;
     }
 
     public T Replace<T>(T oldReference, T newReference)
         where T : Component
     {
-        references.Remove(oldReference.transform.Require<IsGarbageCollectable>());
-        references.Add(newReference.transform.Require<IsGarbageCollectable>());
+        Remove(oldReference);
+        Add(newReference);
         return newReference;
     }
 
@@ -53,5 +61,13 @@ public class HoldsReferences : MonoBehaviour
     void OnDisable()
     {
         referenceHolders.Remove(this);
+    }
+
+    void OnDestroy()
+    {
+        foreach (IsGarbageCollectable collectable in references)
+        {
+            collectable.RemoveReference();
+        }
     }
 }

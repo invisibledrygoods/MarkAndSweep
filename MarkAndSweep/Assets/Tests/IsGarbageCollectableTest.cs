@@ -11,25 +11,25 @@ public class IsGarbageCollectableTest : TestBehaviour
     {
         Given("it is garbage collectable")
             .When("something references it")
-            .ThenWithin("1 second", "it should still exist")
+            .ThenWithin("2 frames", "it should still exist")
             .Because("if it is referenced it should not be collected");
 
         Given("it is garbage collectable")
             .When("nothing references it")
-            .ThenWithin("1 second", "it should be destroyed")
+            .ThenWithin("2 frames", "it should be destroyed")
             .Because("if it isn't referenced it should be collected");
 
         Given("it is garbage collectable")
             .And("something references it")
             .When("one thing stops referencing it")
-            .ThenWithin("1 second", "it should be destroyed")
+            .ThenWithin("2 frames", "it should be destroyed")
             .Because("it needs to know when a reference is removed");
 
         Given("it is garbage collectable")
             .And("something references it")
             .And("something references it")
             .When("one thing stops referencing it")
-            .ThenWithin("1 second", "it should still exist")
+            .ThenWithin("2 frames", "it should still exist")
             .Because("it's only collected when the reference count drops to zero");
     }
 
@@ -52,6 +52,7 @@ public class IsGarbageCollectableTest : TestBehaviour
     public void OneThingStopsReferencingIt()
     {
         Destroy(references.Dequeue().gameObject);
+        Debug.Log("it is " + it);
     }
 
     public void ItShouldStillExist()
