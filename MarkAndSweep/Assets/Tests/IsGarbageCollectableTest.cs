@@ -52,7 +52,6 @@ public class IsGarbageCollectableTest : TestBehaviour
     public void OneThingStopsReferencingIt()
     {
         Destroy(references.Dequeue().gameObject);
-        Debug.Log("it is " + it);
     }
 
     public void ItShouldStillExist()
