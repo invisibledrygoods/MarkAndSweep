@@ -4,8 +4,6 @@ using Require;
 
 public class HoldsReferences : MonoBehaviour
 {
-    public static HashSet<HoldsReferences> referenceHolders = new HashSet<HoldsReferences>();
-    
     public HashSet<IsGarbageCollectable> references = new HashSet<IsGarbageCollectable>();
 
     public GameObject Add(GameObject reference)
@@ -51,16 +49,6 @@ public class HoldsReferences : MonoBehaviour
         Remove(oldReference);
         Add(newReference);
         return newReference;
-    }
-
-    void OnEnable()
-    {
-        referenceHolders.Add(this);
-    }
-
-    void OnDisable()
-    {
-        referenceHolders.Remove(this);
     }
 
     void OnDestroy()
