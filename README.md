@@ -39,7 +39,5 @@ In Progress
  - There is basically a 100% chance that I'll add either waitForCollected to
    IsGarbageCollectable or just a spawnOnCollected field
 
- - I haven't fiddled with sweep frequency at all yet, it might also be good to
-   make it happen whenever a reference holder is destroyed but also that might
-   make it into an ultra lag-o-tron. Alternately, I could make sweeping when
-   destroyed be configurable on a per reference holder basis.
+ - If I switch this to reference counting with check for `references == 0` on
+   the HoldsReferences' `OnDestroy` it would run ultra-quick and be way cool.
