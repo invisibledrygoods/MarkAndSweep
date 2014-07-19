@@ -34,3 +34,19 @@ That's all. As soon as Cirno is destroyed all her bullets will be as well.
     }
 
 And that's also all. As soon as the last of the heads is destroyed all the flames will magically go away.
+
+#### Don't be afraid to use it for something other than bullets
+
+    class WalksTowardsTarget
+    {
+        def SetTarget(CanBePathedTo newTarget)
+        {
+            GetComponent<HoldsReferences>().Add(target);
+            
+            WalkTo(target).Then(() => {
+                GetComponent<HoldsReferences>().Remove(target);
+            });
+        }
+    }
+
+I use something like this in production to clean up unused shared pathing nodes and it works pretty terrifically
